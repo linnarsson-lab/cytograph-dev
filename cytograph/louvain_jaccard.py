@@ -46,7 +46,7 @@ class LouvainJaccard:
 			self.lj_knn = sparse.coo_matrix((weights, (knn.row, knn.col)))
 			self.graph = nx.Graph()
 			for i, edge in enumerate(edges):
-				self.graph.add_edge(edge[0], edge[1], {'weight': weights[i]})
+				self.graph.add_edge(edge[0], edge[1], weight= weights[i])
 		else:
 			self.graph = nx.from_scipy_sparse_matrix(knn)
 		partitions = community.best_partition(self.graph, resolution=self.resolution)
