@@ -43,7 +43,7 @@ class Trinarizer:
 		self.trinary_prob = None  # type: np.ndarray
 		self.genes = None  # type: np.ndarray
 
-	def fit(self, ds: loompy.LoomConnection) -> np.ndarray:
+	def fit(self, ds: loompy.LoomConnection, batch_size: int=1000) -> np.ndarray:
 		cells = np.where(ds.col_attrs["Clusters"] >= 0)[0]
 		labels = ds.col_attrs["Clusters"][cells]
 		n_labels = np.max(labels) + 1
@@ -52,7 +52,7 @@ class Trinarizer:
 		self.genes = ds.row_attrs["Gene"]
 
 		j = 0
-		for (ix, selection, vals) in ds.batch_scan(cells=cells, genes=None, axis=0):
+		for (ix, selection, vals) in ds.batch_scan(cells=cells, genes=None, axis=0, batch_size=batch_size):
 			for j, row in enumerate(selection):
 				data = np.round(vals[j, :])
 				self.trinary_prob[row, :] = self._betabinomial_trinarize_array(data, labels, self.f, n_labels)
