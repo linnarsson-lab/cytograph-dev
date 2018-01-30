@@ -23,7 +23,7 @@ class Aggregator:
 		self.pep = pep
 		self.merge = merge
 
-	def aggregate(self, ds: loompy.LoomConnection, out_file: str, agg_spec: Dict[str, str] = None) -> None:
+	def aggregate(self, ds: loompy.LoomConnection, out_file: str, agg_spec: Dict[str, str] = None, batch_size: int=1000) -> None:
 		if agg_spec is None:
 			ca_aggr = {
 				"Age": "tally",
@@ -46,7 +46,7 @@ class Aggregator:
 		cg.aggregate_loom(ds, out_file, cells, "Clusters", "mean", ca_aggr)
 		dsout = loompy.connect(out_file)
 		logging.info("Trinarizing")
-		trinaries = cg.Trinarizer().fit(ds)
+		trinaries = cg.Trinarizer().fit(ds, batch_size=batch_size)
 		dsout.set_layer("trinaries", trinaries)
 
 		logging.info("Computing cluster gene enrichment scores")
