@@ -141,18 +141,20 @@ def aggregate_loom(ds: loompy.LoomConnection, out_file: str, select: np.ndarray,
 				ca[key] = npg.aggregate(zero_strt_sort_noholes_lbls, ds.col_attrs[key][cols], func=func, fill_value=0)
 			elif func == "first":
 				ca[key] = npg.aggregate(zero_strt_sort_noholes_lbls, ds.col_attrs[key][cols], func=func, fill_value=ds.col_attrs[key][cols][0])
-	m = np.empty((ds.shape[0], n_groups))
-	for (ix, selection, vals) in ds.batch_scan(cells=cols, genes=None, axis=0):
-		vals_aggr = npg.aggregate(zero_strt_sort_noholes_lbls, vals, func=aggr_by, axis=1, fill_value=0)
-		m[selection, :] = vals_aggr
+	m = {k: np.empty((ds.shape[0], n_groups)) for k in ds.layer.keys()}
+	for (ix, selection, vals) in ds.batch_scan_layers(cells=cols, genes=None, axis=0):
+		for k in vals.keys():
+			vals_aggr = npg.aggregate(zero_strt_sort_noholes_lbls, vals[k], func=aggr_by, axis=1, fill_value=0)
+			m[k][selection, :] = vals_aggr
 
 	if return_matrix:
 		return m
 
 	if os.path.exists(out_file):
+		raise NotImplementedError("I am not sure this should happen so I am throwing an error /Gioele")
 		dsout = loompy.connect(out_file)
 		dsout.add_columns(m, ca, fill_values="auto")
 		dsout.close()
 	else:
-		loompy.create(out_file, m, ds.row_attrs, ca)
+		loompy.create(filename=out_file, matrix=m, row_attrs=ds.row_attrs, col_attrs=ca, layers=m)
 
