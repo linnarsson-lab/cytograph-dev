@@ -156,5 +156,5 @@ def aggregate_loom(ds: loompy.LoomConnection, out_file: str, select: np.ndarray,
 		dsout.add_columns(m, ca, fill_values="auto")
 		dsout.close()
 	else:
-		loompy.create(filename=out_file, matrix=m, row_attrs=ds.row_attrs, col_attrs=ca, layers=m)
+		loompy.create(filename=out_file, matrix=None, row_attrs=ds.row_attrs, col_attrs=ca, layers=m)
 
