@@ -148,7 +148,7 @@ def aggregate_loom(ds: loompy.LoomConnection, out_file: str, select: np.ndarray,
 			m[k][selection, :] = vals_aggr
 
 	if return_matrix:
-		return m
+		return m[""]
 
 	if os.path.exists(out_file):
 		raise NotImplementedError("I am not sure this should happen so I am throwing an error /Gioele")
