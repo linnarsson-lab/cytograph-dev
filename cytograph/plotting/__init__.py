@@ -18,3 +18,4 @@ from .heatmap import Heatmap
 from .qc_plots import attrs_on_TSNE
 from .scatter import scatterc, scattern
 from .decision_boundary import decision_boundary
+from .genotyping import genotype_hist
