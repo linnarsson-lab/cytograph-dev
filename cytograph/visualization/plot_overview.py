@@ -202,14 +202,14 @@ class PlotOverview():
         sparkline(axes[3], aggregate(labels, CellCycleFraction[:], func="mean"), 0.05, "blue", "Cell cycle", labels, subtrees)
         sparkline(axes[4], aggregate(labels, DoubletScore[:], func="mean"), 0.4, "crimson", "Doublet score", labels, subtrees)
         plot_ages(axes[5], ages, labels, subtrees)
-        try:
+        d = cgplot.colors.Colorizer("regions").dict()
+        skip = False
+        for l in np.unique(ds.ca.regions):
+            if l not in d:
+                skip = True
+        if not skip:
             plot_regions(axes[6], regions, cgplot.colors.Colorizer("regions").dict(), labels, subtrees)
-        except:
-            plot_regions(axes[6], regions, cgplot.colors.Colorizer("tube").dict(), labels, subtrees)
-        try:
             plot_regions(axes[7], subregions, cgplot.colors.Colorizer("subregions").dict(), labels, subtrees)
-        except:
-            plot_regions(axes[7], subregions, cgplot.colors.Colorizer("colors75").dict(), labels, subtrees)
 #         plot_auto_annotation(axes[8], ann_names, ann_post, labels, subtrees)
         plot_genes(axes[8], markers, mean_x, genes, labels, subtrees, enriched_genes)  ## ax[9] when using the auto annotation
         fig.tight_layout(pad=0, h_pad=0, w_pad=0)
