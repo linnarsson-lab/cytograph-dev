@@ -52,8 +52,8 @@ pip install tomotopy scanpy
 pip install --force-reinstall foundationdb==6.3.25   # Newer versions will be incompatible
 git clone https://github.com/linnarsson-lab/shoji.git
 pip install -e shoji
-git clone https://github.com/linnarsson-lab/cytograph-shoji.git
-pip install -e cytograph-shoji
+git clone https://github.com/linnarsson-lab/cytograph-dev.git
+pip install -e cytograph-dev
 ```
 
 ## Creating a build
