@@ -30,6 +30,30 @@ Errors related to 'numba' package, e.g. during HPF/PCA generation. Try (possibly
 conda update anaconda
 conda install numba=0.46.0
 ```
+### Reinstalling
+This works as of Jan 2023:
+```
+### First steps to make a clean reinstall:
+conda deactivate
+rm .conda*
+rm -Rf miniconda*
+rm -Rf anaconda*
+### Now for the actual install. Either:
+wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
+bash Anaconda3-2022.10-Linux-x86_64.sh
+# Or: It appears better to start from Miniconda instead of Anaconda, probably due to less risk of non-compatible package versions.
+wget https://repo.anaconda.com/miniconda/Miniconda3-py37_22.11.1-1-Linux-x86_64.sh
+bash Miniconda3-py37_22.11.1-1-Linux-x86_64.sh
+### (It is not recommended to create a separate environment, since the condor scheduler dislikes 'conda activate'.)
+conda install pandas
+conda install -c conda-forge scikit-learn
+pip install tomotopy scanpy
+pip install --force-reinstall foundationdb==6.3.25   # Newer versions will be incompatible
+git clone https://github.com/linnarsson-lab/shoji.git
+pip install -e shoji
+git clone https://github.com/linnarsson-lab/cytograph-shoji.git
+pip install -e cytograph-shoji
+```
 
 ## Creating a build
 
