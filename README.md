@@ -30,10 +30,11 @@ Errors related to 'numba' package, e.g. during HPF/PCA generation. Try (possibly
 conda update anaconda
 conda install numba=0.46.0
 ```
-### Reinstalling
+### (Re)-installing
 This works as of Jan 2023:
 ```
-### First steps to make a clean reinstall:
+### First some steps to cleanup before reinstalling:
+cd
 conda deactivate
 rm .conda*
 rm -Rf miniconda*
